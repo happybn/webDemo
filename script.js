@@ -1,54 +1,42 @@
-const tinhSelect = document.getElementById("tinh");
-const huyenSelect = document.getElementById("huyen");
-const xaSelect = document.getElementById("xa");
 
-// Lấy dữ liệu tỉnh
-const getTinh = async () => {
-    const response = await fetch("https://api.quanlynhanuoc.vn/api/tinh");
-    const data = await response.json();
-    data.forEach((tinh) => {
-        const option = document.createElement("option");
-        option.value = tinh.Ma;
-        option.textContent = tinh.Ten;
-        tinhSelect.appendChild(option);
-    });
-};
+var citis = document.getElementById("city");
+var districts = document.getElementById("district");
+var wards = document.getElementById("ward");
 
-// Lấy dữ liệu huyện
-const getHuyen = async (maTinh) => {
-    huyenSelect.innerHTML = ""; // Xóa dữ liệu cũ
-    const response = await fetch(`https://api.quanlynhanuoc.vn/api/huyen/${maTinh}`);
-    const data = await response.json();
-    data.forEach((huyen) => {
-        const option = document.createElement("option");
-        option.value = huyen.Ma;
-        option.textContent = huyen.Ten;
-        huyenSelect.appendChild(option);
-    });
-};
-
-// Lấy dữ liệu xã
-const getXa = async (maHuyen) => {
-    xaSelect.innerHTML = ""; // Xóa dữ liệu cũ
-    const response = await fetch(`https://api.quanlynhanuoc.vn/api/xa/${maHuyen}`);
-    const data = await response.json();
-    data.forEach((xa) => {
-        const option = document.createElement("option");
-        option.value = xa.Ma;
-        option.textContent = xa.Ten;
-        xaSelect.appendChild(option);
-    });
-};
-
-// Lấy dữ liệu tỉnh khi trang tải
-getTinh();
-
-// Lấy dữ liệu huyện khi chọn tỉnh
-tinhSelect.addEventListener("change", (e) => {
-    getHuyen(e.target.value);
-});
-
-// Lấy dữ liệu xã khi chọn huyện
-huyenSelect.addEventListener("change", (e) => {
-    getXa(e.target.value);
-});
+var Parameter = {
+    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json", 
+    method: "GET", 
+    responseType: "application/json", 
+  };
+  var promise = axios(Parameter);
+  promise.then(function (result) {
+    renderCity(result.data);
+  });
+  
+  function renderCity(data) {
+    for (const x of data) {
+      citis.options[citis.options.length] = new Option(x.Name, x.Id);
+    }
+    citis.onchange = function () {
+      district.length = 1;
+      ward.length = 1;
+      if(this.value != ""){
+        const result = data.filter(n => n.Id === this.value);
+  
+        for (const k of result[0].Districts) {
+          district.options[district.options.length] = new Option(k.Name, k.Id);
+        }
+      }
+    };
+    district.onchange = function () {
+      ward.length = 1;
+      const dataCity = data.filter((n) => n.Id === citis.value);
+      if (this.value != "") {
+        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+  
+        for (const w of dataWards) {
+          wards.options[wards.options.length] = new Option(w.Name, w.Id);
+        }
+      }
+    };
+  }
