@@ -41,18 +41,16 @@ function renderCity(data) {
   };
 }
 document.getElementById("submit").addEventListener("click", () => {
-  const provinceSelect = document.getElementById("city");
-
-// Lấy giá trị tỉnh/thành phố được chọn
+const provinceSelect = document.getElementById("city");
 const selectedProvinceId = provinceSelect.value;
-
-// Lấy thông tin tỉnh/thành phố dựa vào ID
-const provinceInfo = provinceSelect.options[provinceSelect.selectedIndex].text;
-
-alert(provinceInfo)
-
-  // Lấy thông tin tỉnh/huyện/thị xã được chọn
-  // Lấy thông tin địa chỉ cụ thể được nhập
-  // Ghép các thông tin lại thành chuỗi kết quả
-  // Hiển thị chuỗi kết quả lên div #result
+const provinceText = provinceSelect.options[provinceSelect.selectedIndex].text;
+const districtSelect = document.getElementById("district");
+const selectedDistrictId = districtSelect.value;
+const districtText = districtSelect.options[districtSelect.selectedIndex].text;
+const wardSelect = document.getElementById("city");
+const selectedWardId = provinceSelect.value;
+const wardText = wardSelect.options[wardSelect.selectedIndex].text;
+const addressText = document.getElementById("address").value;
+const resultString = provinceText + ", " + districtText + ", " + addressText;
+document.getElementById("result").innerHTML = resultString;
 });
