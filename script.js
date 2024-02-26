@@ -42,15 +42,12 @@ function renderCity(data) {
 }
 document.getElementById("submit").addEventListener("click", () => {
 const provinceSelect = document.getElementById("city");
-const selectedProvinceId = provinceSelect.value;
 const provinceText = provinceSelect.options[provinceSelect.selectedIndex].text;
 const districtSelect = document.getElementById("district");
-const selectedDistrictId = districtSelect.value;
 const districtText = districtSelect.options[districtSelect.selectedIndex].text;
 const wardSelect = document.getElementById("city");
-const selectedWardId = provinceSelect.value;
 const wardText = wardSelect.options[wardSelect.selectedIndex].text;
 const addressText = document.getElementById("address").value;
-const resultString = provinceText + ", " + districtText + ", " + addressText;
+const resultString = addressText + ", " + wardText + ", " + districtText + ", " + provinceText;
 document.getElementById("result").innerHTML = resultString;
 });
