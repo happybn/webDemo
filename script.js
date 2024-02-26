@@ -47,7 +47,7 @@ document.getElementById("submit").addEventListener("click", () => {
 const selectedProvinceId = provinceSelect.value;
 
 // Lấy thông tin tỉnh/thành phố dựa vào ID
-const provinceInfo = getProvinceById(selectedProvinceId);
+const provinceInfo = provinceSelect.options[provinceSelect.selectedIndex].text;
 
 alert(provinceInfo)
 
